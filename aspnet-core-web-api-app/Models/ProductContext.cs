@@ -12,7 +12,13 @@ public class ProductContext : DbContext
         : base(options)
     { }
 
-    public DbSet<Product> Products { get; set; }
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=aspnet-core-web-api-app-EFGetStarted-DB;Trusted_Connection=True;");
+        //}
+
+        public DbSet<Product> Products { get; set; }
 
 }
 }

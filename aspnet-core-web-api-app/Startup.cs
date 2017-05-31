@@ -35,9 +35,12 @@ namespace aspnet_core_web_api_app
         {
             // Add framework services.
             services.AddMvc();
-            //https://docs.microsoft.com/en-us/ef/core/get-started/aspnetcore/new-db
+            //Add database support https://docs.microsoft.com/en-us/ef/core/get-started/aspnetcore/new-db
             var connection = @"Server=(localdb)\mssqllocaldb;Database=aspnet-core-web-api-app-EFGetStarted-DB;Trusted_Connection=True;";
             services.AddDbContext<ProductContext>(options => options.UseSqlServer(connection));
+
+            //Add non distributed in memory cache support.
+            services.AddMemoryCache();
 
         }
 

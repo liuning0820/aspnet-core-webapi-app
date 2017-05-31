@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using aspnetcorewebapiapp.Models;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace aspnet_core_web_api_app.Controllers
 {
@@ -15,16 +16,54 @@ namespace aspnet_core_web_api_app.Controllers
     {
         private readonly ProductContext _context;
 
-        public ProductsEFController(ProductContext context)
+        private IMemoryCache _cache;
+
+        public ProductsEFController(ProductContext context, IMemoryCache memoryCache)
         {
             _context = context;
+            _cache = memoryCache;
         }
 
         // GET: api/ProductsEF
         [HttpGet]
         public IEnumerable<Product> GetProducts()
         {
-            return _context.Products;
+            // return _context.Products;
+
+            try
+            {
+                //Use IEnumerable here will fail to load in cache entry. throw net::ERR_CONNECTION_RESET in the F12 Console.
+                IList<Product> cacheEntry;
+
+                // Look for cache key.
+                if (!_cache.TryGetValue("ProductKey", out cacheEntry))
+                {
+                    // Key not in cache, so get data.
+                    cacheEntry = _context.Products.ToList();
+
+                    // Set cache options.
+                    var cacheEntryOptions = new MemoryCacheEntryOptions()
+                        // Keep in cache for this time, reset time if accessed.
+                        .SetAbsoluteExpiration(TimeSpan.FromSeconds(60));
+
+                    // Save data in cache.
+                    _cache.Set("ProductKey", cacheEntry, cacheEntryOptions);
+                }
+
+
+
+
+                return cacheEntry;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.ToString());
+                throw;
+            }
+
+            
+
+
         }
 
         // GET: api/ProductsEF/5
@@ -36,7 +75,10 @@ namespace aspnet_core_web_api_app.Controllers
                 return BadRequest(ModelState);
             }
 
+
+
             var product = await _context.Products.SingleOrDefaultAsync(m => m.Id == id);
+
 
             if (product == null)
             {
