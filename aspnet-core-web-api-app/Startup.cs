@@ -35,10 +35,7 @@ namespace aspnet_core_web_api_app
         {
             // Add framework services.
             services.AddMvc();
-            //Add database support https://docs.microsoft.com/en-us/ef/core/get-started/aspnetcore/new-db
-            var connection = @"Server=(localdb)\mssqllocaldb;Database=aspnet-core-web-api-app-EFGetStarted-DB;Trusted_Connection=True;";
-            services.AddDbContext<ProductContext>(options => options.UseSqlServer(connection));
-
+       
             //Add non distributed in memory cache support.
             services.AddMemoryCache();
 
@@ -51,6 +48,13 @@ namespace aspnet_core_web_api_app
             loggerFactory.AddDebug();
 
             app.UseMvc();
+
+            // app.Run(async (context) =>
+            // {
+
+            //     await context.Response.WriteAsync("Nice Day 10/2!!!!" +" Machine Name is: "+ System.Environment.MachineName + 
+            //     ". OS version is:"+ System.Environment.OSVersion );
+            // });
         }
     }
 }
