@@ -12,11 +12,15 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+
+- script: dotnet restore
+
 # ASP.NET Core (.NET Framework)
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
-    projects: '.\aspnet-core-web-api-app\aspnet-core-web-api-app.csproj'
+    #projects: '.\aspnet-core-web-api-app\aspnet-core-web-api-app.csproj'
+    projects: '**/*.csproj'
 # Build and test ASP.NET Core projects targeting the full .NET Framework.
 # Add steps that publish symbols, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
