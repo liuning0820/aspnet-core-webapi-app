@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <RuntimeFrameworkVersion>2.1.0</RuntimeFrameworkVersion>
+    <RuntimeFrameworkVersion>2.1.1</RuntimeFrameworkVersion>
     <PlatformTarget>AnyCPU</PlatformTarget>
 
   </PropertyGroup>
@@ -15,8 +15,6 @@
   <PackageReference Include="Microsoft.AspNetCore.App" />
 </ItemGroup>
 
- <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
-  </ItemGroup>
+
 
 </Project>
