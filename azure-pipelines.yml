@@ -17,6 +17,7 @@ steps:
 
 # ASP.NET Core (.NET Framework)
 - task: DotNetCoreCLI@2
+  displayName: build
   inputs:
     command: 'build'
     projects: '**/*.csproj'
@@ -25,8 +26,11 @@ steps:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 - task: DotNetCoreCLI@2
+  displayName: publish
   inputs:
     command: publish
     publishWebProjects: True
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: True
+
+- task: PublishBuildArtifacts@1
